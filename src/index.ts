@@ -163,8 +163,8 @@ const ChatRouteLive = Layer.effectDiscard(
                 // 2. Get dense vectors (mixedbread)
 
                 // 3. Get sparse vectors (wink)
-                // bm25.learn(nlp.readDoc(await readDocument('google-support.txt')).tokens().out(its.normal));
-                // const sparseQueryEmbeddings = bm25.vectorOf(nlp.readDoc(summary).tokens().out(its.normal));
+                bm25.learn(nlp.readDoc(await readDocument('google-support.txt')).tokens().out(its.normal));
+                const sparseQueryEmbeddings = bm25.vectorOf(nlp.readDoc(summary).tokens().out(its.normal));
 
                 const topSimilarDocuments = await getTopSimilarDocuments(messages, supportDocs, embedModelName, 4);
                 console.log(topSimilarDocuments);
@@ -178,7 +178,7 @@ const ChatRouteLive = Layer.effectDiscard(
                     returnInput: false
                 });
                 const newDocuments = response.data.map(doc => topSimilarDocumentsContent[doc.index])
-                console.log(newDocuments)
+                console.log(response.data.map(doc => topSimilarDocuments[doc.index]))
                 
                 const chatResponse = await generateResponse(newDocuments, summary as string);
                 // 4. Create index with dotproduct metric
