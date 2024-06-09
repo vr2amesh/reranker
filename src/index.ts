@@ -37,7 +37,7 @@ const supportDocs = ['google-support.txt', 'twitter-support.txt', 'github-suppor
 async function summarizeStrings(messages: Message[]): Promise<string | undefined> {
     try {
       // Join the list of strings into a single prompt
-      const prompt = `You are given a series of questions that have been asked by a user looking to get answers. Please take the series of questions and summarie the issue they want to ask to a chat assistant, so that the chat assistant may easily understand the question:\n\n${messages.map(m=>m.content).join('\n\n')}`;
+      const prompt = `You are given a series of questions that have been asked by a user looking to get answers. Please take the series of questions and summarize the issue they want to ask to a chat assistant, so that the chat assistant may easily understand the question:\n\n${messages.map(m=>m.content).join('\n\n')}`;
   
       // Send the prompt to the OpenAI API
       const response = await openai.chat.completions.create({
@@ -54,20 +54,21 @@ async function summarizeStrings(messages: Message[]): Promise<string | undefined
     } catch (error) {
       console.error('Error summarizing strings:', error);
     }
-  }
+}
 
-  const readDocument = async (filePath: string): Promise<string> => {
+const readDocument = async (filePath: string): Promise<string[]> => {
     return new Promise((resolve, reject) => {
-      fs.readFile(path.join(__dirname, 'documents', filePath), 'utf8', (err, data) => {
-        if (err) {
-          reject(err);
-        } else {
-          // Split the file content into paragraphs
-          resolve(data);
-        }
-      });
+        fs.readFile(path.join(__dirname, 'documents', filePath), 'utf8', (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                // Split the file content into paragraphs
+                const paragraphs = data.split('\n\n').filter(paragraph => paragraph.trim() !== '');
+                resolve(paragraphs);
+            }
+        });
     });
-  };
+};
 
 const getEmbeddings = async (
     input: string[],
@@ -86,8 +87,8 @@ const getTopSimilarDocuments = async (messages: Message[], documentPaths: string
     const queryEmbeddings = await getEmbeddings(messages.map(m => m.content), embedModelName);
 
     const documentEmbeddingsPromises = documentPaths.map(async (documentPath) => {
-        const documentContent = await readDocument(documentPath);
-        return getEmbeddings([documentContent], embedModelName);
+        const documentParagraphs = await readDocument(documentPath);
+        return getEmbeddings(documentParagraphs, embedModelName);
     });
     const documentEmbeddings = await Promise.all(documentEmbeddingsPromises);
 
@@ -97,8 +98,8 @@ const getTopSimilarDocuments = async (messages: Message[], documentPaths: string
         return flatDocumentEmbeddings.map(docEmbedding => similarity.cosine(queryEmbedding, docEmbedding));
     });
 
-    const averageSimilarities = documentEmbeddings.map((_, docIdx) => {
-        const docSimilarities = similarities.map(sim => sim[docIdx]);
+    const averageSimilarities = documentEmbeddings.map((embeddings, docIdx) => {
+        const docSimilarities = embeddings.map((_, paraIdx) => similarities.map(sim => sim[paraIdx + docIdx * embeddings.length]).reduce((sum, val) => sum + val, 0) / queryEmbeddings.length);
         return docSimilarities.reduce((sum, val) => sum + val, 0) / docSimilarities.length;
     });
 
@@ -114,7 +115,7 @@ const getTopSimilarDocuments = async (messages: Message[], documentPaths: string
 const generateResponse = async (topSimilarDocumentsContent: string[], summary: string) => {
     try {
         // Join the list of strings into a single prompt
-        const prompt = `You are responding to a users request for customer support. Here is their question:\n
+        const prompt = `You are responding to a user's request for customer support. Here is their question:\n
             ${summary}\n
 
             Based on this question, I have curated some documents that might be useful for you to answer this user, here are 
@@ -131,103 +132,100 @@ const generateResponse = async (topSimilarDocumentsContent: string[], summary: s
     
         // Send the prompt to the OpenAI API
         const response = await openai.chat.completions.create({
-          model: 'gpt-4',
-          messages: [
-            { role: 'system', content: 'You are a helpful assistant.' },
-            { role: 'user', content: prompt },
-          ],
+            model: 'gpt-4',
+            messages: [
+                { role: 'system', content: 'You are a helpful assistant.' },
+                { role: 'user', content: prompt },
+            ],
         });
     
         // Extract and return the summary from the response
         const responseToUser = response.choices[0].message.content;
         return responseToUser ?? '';
-      } catch (error) {
+    } catch (error) {
         console.error('Error generating response:', error);
-      }
+    }
 }
 
 
 const ChatRouteLive = Layer.effectDiscard(
-  Effect.gen(function* () {
-    const app = yield* Express
-    const runFork = Runtime.runFork(yield* Effect.runtime<never>())
+    Effect.gen(function* () {
+        const app = yield* Express
+        const runFork = Runtime.runFork(yield* Effect.runtime<never>())
 
-    app.use(express.json());
+        app.use(express.json());
 
-    app.get("/chat", (req, res) => {
-      runFork(Effect.sync(async () => {
-        // 1. Convert the input query into a condensed one that summmarizes all the text
-        const { messages } = req.body as { messages: Message[] };
-        const summary = await summarizeStrings(messages);
-        // 2. Get dense vectors (mixedbread)
+        app.get("/chat", (req, res) => {
+            runFork(Effect.sync(async () => {
+                // 1. Convert the input query into a condensed one that summarizes all the text
+                const { messages } = req.body as { messages: Message[] };
+                const summary = await summarizeStrings(messages);
+                // 2. Get dense vectors (mixedbread)
 
-        // 3. Get sparse vectors (wink)
-        // bm25.learn(nlp.readDoc(await readDocument('google-support.txt')).tokens().out(its.normal));
-        // const sparseQueryEmbeddings = bm25.vectorOf(nlp.readDoc(summary).tokens().out(its.normal));
+                // 3. Get sparse vectors (wink)
+                // bm25.learn(nlp.readDoc(await readDocument('google-support.txt')).tokens().out(its.normal));
+                // const sparseQueryEmbeddings = bm25.vectorOf(nlp.readDoc(summary).tokens().out(its.normal));
 
-        const topSimilarDocuments = await getTopSimilarDocuments(messages, supportDocs, embedModelName, 4);
-        console.log(topSimilarDocuments);
+                const topSimilarDocuments = await getTopSimilarDocuments(messages, supportDocs, embedModelName, 4);
+                console.log(topSimilarDocuments);
 
+                const topSimilarDocumentsContent = await Promise.all(topSimilarDocuments.map(async doc => (await readDocument(doc)).join('\n\n')));
+                const response = await mxbai.reranking({
+                    model: rerankModelName,
+                    query: summary as string,
+                    input: topSimilarDocumentsContent,
+                    topK: 4, 
+                    returnInput: false
+                });
+                const newDocuments = response.data.map(doc => topSimilarDocumentsContent[doc.index])
+                console.log(newDocuments)
+                
+                const chatResponse = await generateResponse(newDocuments, summary as string);
+                // 4. Create index with dotproduct metric
+                // const now = Date.now();
+                // const index = await pc.createIndex({
+                //     name: `severless-index`,
+                //     dimension: 1536,
+                //     metric: 'dotproduct',
+                //     spec: {
+                //         serverless: {
+                //             cloud: 'aws',
+                //             region: 'us-east-1'
+                //         }
+                //     },
+                //     waitUntilReady: true
+                // });
+                // 5. Upsert sparse-dense vectors to index
+                // await pc.index(`serverless-index`).upsert([{
+                //     id: 'vec1',
+                //     values: denseQueryEmbeddings[0] as number[],
+                //     sparseValues: sparseQueryEmbeddings,
+                // }]);
+                // 6. Search the index using sparse-dense vectors
+                // 7. Pinecone returns sparse-dense vectors
 
-        const topSimilarDocumentsContent = await Promise.all(topSimilarDocuments.map(async doc => await readDocument(doc)));
-        const response = await mxbai.reranking({
-            model: rerankModelName,
-            query: summary as string,
-            input: topSimilarDocumentsContent,
-            topK: 4, 
-            returnInput: false
-        });
-        const newDocuments = response.data.map(doc => topSimilarDocumentsContent[doc.index])
-        
-        const chatResponse = await generateResponse(newDocuments, summary as string);
-        // 4. Create index with dotproduct metric
-        // const now = Date.now();
-        // const index = await pc.createIndex({
-        //     name: `severless-index`,
-        //     dimension: 1536,
-        //     metric: 'dotproduct',
-        //     spec: {
-        //         serverless: {
-        //             cloud: 'aws',
-        //             region: 'us-east-1'
-        //         }
-        //     },
-        //     waitUntilReady: true
-        // });
-        // 5. Upsert sparse-dense vectors to index
-        // await pc.index(`serverless-index`).upsert([{
-        //     id: 'vec1',
-        //     values: denseQueryEmbeddings[0] as number[],
-        //     sparseValues: sparseQueryEmbeddings,
-        // }]);
-        // 6. Search the index using sparse-dense vetors
-        // 7. Pinecone returns sparse-dense vectors
-
-
-
-
-        res.json({
-            chatResponse
+                res.json({
+                    chatResponse
+                })
+            }))
         })
-      }))
     })
-  })
 )
 
 
 const ServerLive = Layer.scopedDiscard(
-  Effect.gen(function* () {
-    const port = 3001
-    const app = yield* Express
-    yield* Effect.acquireRelease(
-      Effect.sync(() =>
-        app.listen(port, () =>
-          console.log(`Example app listening on port ${port}`)
+    Effect.gen(function* () {
+        const port = 3001
+        const app = yield* Express
+        yield* Effect.acquireRelease(
+            Effect.sync(() =>
+                app.listen(port, () =>
+                    console.log(`Example app listening on port ${port}`)
+                )
+            ),
+            (server) => Effect.sync(() => server.close())
         )
-      ),
-      (server) => Effect.sync(() => server.close())
-    )
-  })
+    })
 )
 
 
@@ -235,8 +233,8 @@ const ExpressLive = Layer.sync(Express, () => express())
 
 
 const AppLive = ServerLive.pipe(
-  Layer.provide(ChatRouteLive),
-  Layer.provide(ExpressLive)
+    Layer.provide(ChatRouteLive),
+    Layer.provide(ExpressLive)
 )
 
 
