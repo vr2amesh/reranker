@@ -1,9 +1,24 @@
 {
   "name": "reranker",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.ts",
   "license": "MIT",
   "devDependencies": {
+    "@types/express": "^4.17.21",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@mixedbread-ai/sdk": "^2.2.0",
+    "@pinecone-database/pinecone": "^2.2.2",
+    "effect": "^3.3.0",
+    "express": "^4.19.2",
+    "ml-distance": "^4.0.1",
+    "openai": "^4.49.1",
+    "wink-eng-lite-web-model": "^1.8.0",
+    "wink-nlp": "^2.3.0"
+  },
+  "scripts": {
+    "start": "npx ts-node src/index.ts"
   }
 }

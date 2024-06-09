@@ -1,0 +1,64 @@
+Tweeting
+What is Twitter?
+Twitter is a service for friends, family, and coworkers to communicate and stay connected through the exchange of quick, frequent messages. People post Tweets, which may contain photos, videos, links, and text. These messages are posted to your profile, sent to your followers, and are searchable on Twitter search. Learn more about how to use Twitter.
+
+Do I need anything special to use it?
+All you need to use Twitter is an internet connection or a mobile phone. Join us here! Once you're in, begin finding and following accounts whose Tweets interest you. We'll recommend great accounts once you're signed up.
+What's a Tweet?
+A Tweet is any message posted to Twitter which may contain photos, videos, links, and text. Click or tap the Tweet button to post the update to your profile. Read our Posting a Tweet article for more information.
+
+How can I send updates to Twitter?
+Read our article about how to post a Tweet. You can Tweet from twitter.com, a mobile device, or an application. 
+What's a Retweet?
+A Retweet is a Tweet that you forward to your followers.
+
+How do I post a picture to Twitter?
+Uploading and sharing images on Twitter is easy! Find step-by-step instructions and FAQs on how to post a picture on Twitter.
+
+Can I edit a Tweet once I've posted it?
+No, you can’t edit a Tweet once you have posted it, but you can delete your Tweet.
+
+How can I enable night mode?
+To enable night mode via twitter.com, click on your profile photo, then select Night mode from the drop-down menu. To disable night mode, simply click on the Night mode setting again. Night mode is also available on Twitter for iOS and Twitter for Android.
+
+Who reads my updates?
+Your followers read your Tweets. If your Tweets are public, anyone who runs a search for a keyword in your Tweet may be able to see that message. Your Tweets are public by default; if you're hesitant to have people you may not know read your updates, protect your Tweets to approve followers and keep your updates out of search.
+
+Why can't I see all my Tweets? Are they lost?
+We store all your Tweets. Navigate to your profile to view up to 3,200 of your most recent Tweets in your profile timeline. To view more, you can download your Twitter Archive and browse a snapshot of your Twitter information, starting with your first Tweet.
+
+Can I put my Twitter updates on my blog?
+Yes! Put a Twitter widget on your blog or website – anywhere that accepts Javascript or HTML.
+
+Following
+What does it mean to follow someone on Twitter?
+Following someone means you've chosen to subscribe to their Twitter updates. When you follow someone, every time they post a new message, it will appear on your Twitter Home timeline. 
+How do I find people to follow?
+When you create an account, you can search for people by name or username, import friends from other networks, or invite friends via email. 
+How do I know who I'm following?
+After you click or tap the Follow button on someone's profile, you're following them. See a list of people you're following by clicking on the following link on your profile page or on your home page's sidebar.
+
+How do I know who is following me?
+Twitter sends you a notification when someone new follows you. Set up your email preferences and mobile push notifications to notify you when you have a new follower. The Followers link on your profile page will also tell you who is following you.
+What are follow limits?
+Twitter has follow and update limits for stability and abuse control. Learn more about follow limits.
+
+Replies
+What are replies?
+A reply is a response to another person’s Tweet. Click or tap the reply icon   on another person's Tweet to reply to it. Please note that if your Tweets are protected, people who are not following you will not see your replies or mentions. 
+What is the difference between a reply and a Direct Message?
+A reply is a public message sent regardless of follow-ship. Anyone can view it (if your Tweets are public). A Direct Message is a private message, and can only be seen by the sender and intended recipients.
+Direct Messages
+What are Direct Messages?
+Direct Messages are private messages sent from one Twitter account to other Twitter account(s), and they do not appear in public for anyone else to read. You can start a conversation with anyone who follows you.
+Twitter policies and reporting
+Why are accounts suspended?
+Accounts are suspended for Terms of Service violations or spam investigation. Read more about account suspension.
+
+How do I report spam?
+Read our article about how to report spam on Twitter. We encourage you to always block any spammers you find. 
+Where can I find out more information about Twitter's Terms of Service?
+Read Twitter's Terms of Service and the Twitter Rules for more information. 
+
+How do I submit a complaint about copyright, impersonation, trademark, or other Terms of Service issues?
+Review our Terms of Service section to find out what constitutes a violation, and how to go about fixing a related problem.

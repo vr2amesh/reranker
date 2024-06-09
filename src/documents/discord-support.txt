@@ -1,0 +1,133 @@
+What Are Apps?
+Discord Apps add functionality, entertainment, and productivity tools to your servers, direct messages (DMs), group chats, and voice calls. These apps can range from bots that automate tasks, to activities that allow you to play games, collaborate on projects, or share experiences with others directly within Discord. 
+
+Apps are created by Discord, third parties, or by Discord users and can vary from games to moderation to everything else in between. If you’re an app developer and would like to learn more about apps on Discord, you can check out our Developer Support Help Center.
+
+Types of Discord Apps:
+
+1. Bots: Automated programs that can perform a variety of tasks such as moderating chats, providing user support, playing music, or organizing games. They typically exist within a server and appear as a member of the server.
+
+2. Activities: Interactive experiences like games, quizzes, or collaborative tools such as whiteboards that you can enjoy with others in real-time in text chats or voice calls. Learn more about activities in our Activities on Discord Help Center article.
+
+
+
+How To Use Apps
+You can interact with an app in a multitude of ways. If you have an app installed, you can use one of its commands by using slash commands, or by right-clicking on a user or message and selecting Apps.
+
+Launching Apps With The Shapes Button
+The Shapes button is currently only available in servers on mobile.
+
+
+The easiest way to launch an app is by selecting the Shapes button in the chat bar and selecting the app you would like to start. 
+
+   
+
+It then provides an interface for selecting preset commands for the app without having to type them out.
+
+   
+
+Slash Commands
+To use an app’s slash commands via the chat bar, simply type ”/” in chat to bring up the command picker and select the command you would like to use. You can also type the entire “/ (command)” within the text box to initiate the command.
+
+
+
+For more information on slash commands, check out this article.
+
+User And Message Commands
+You can also interact with an app by right-clicking on a user or message and bringing up the dropdown menu. Additional interactions can be found under the Apps sub-menu.
+
+
+
+Note: Every app is different. To learn how each app functions, check out the app’s member profile or the App Directory page for the app. 
+How To Discover Apps
+Discord’s App Directory lets you search, browse, and explore various apps you can add to customize your server. 
+
+Note: The App Directory is only available on desktop and browser. 
+To find various apps available on Discord, you can head over to the App Directory.
+
+1. Head over to your server and left-click the server name located in the upper-left corner. 
+
+2. Then, select Server Settings > App Directory. 
+
+
+
+You can learn more about the App Directory here. 
+
+How To Add Apps
+Once you’ve had a chance to explore the App Directory and browse the various categories, you may find an app you would like to add.
+
+Most apps can be added to a server where you have the Manage Server permission, or where you’re the owner of the server. 
+
+Alternatively, some apps can be added directly to your account. Apps that can be added to your account will ask if you want to add the app to your account instead of to a server.
+
+Within The App Directory
+1. If you meet the permission requirements, head over to the App Directory and select an app you would like to add. While in the app’s page, you can read the Overview to learn more about the app and its functionality. 
+
+2. Then, press Add App and follow the prompts to confirm you would like to add the app. Some apps may ask if you want to add the app to your account or server, you can choose where to add the app here.
+
+
+
+Adding user apps from the App Directory is currently an experiment and slowly rolling out to users. 
+4. Then, you can follow the prompts which will show you what permissions and access the app will require.
+
+
+
+5. Once you select Authorize and complete the prompts, you will receive a confirmation. 
+
+If you added the app to your server, it will appear in your server’s Member List and in your Server Settings > Integrations > Bots and Apps. If you added the app to your account, you will see it under your settings, under Authorized Apps.
+
+
+
+From The App’s Profile
+You can also add an app by viewing the app’s profile. 
+
+1. While in a server, select the app to view its profile.
+
+2. Then, press Add App and follow the prompts. 
+
+4. Next, some apps may ask if you want to add the app to your account or server, you can choose where to add the app here.
+
+
+
+5. Once you’re ready, complete the prompts and select Authorize to confirm you would like to add the app to your account or server.    
+
+
+
+5. If you added the app to your server, it will appear in your server’s Member List. If you added the app to your account, you will see it under your User Settings > Authorized Apps. 
+
+Frequently Asked Questions
+Q: Who should I reach out to if I am experiencing issues with the app?
+
+A: Discord does not create or maintain apps, app developers do themselves. 
+
+If you are experiencing issues with the app, please reach out to the app’s support team by heading over to their app’s support server. Most support servers can be found within the app’s Overview section within the App Directory. 
+
+Q: Who is able to manage apps in a server?
+
+A: To manage apps in a server, you must be the owner of the server or have the Manage Server permissions enabled. 
+
+Q: I no longer want the app in my server. How do I remove the app? 
+
+A: To remove the app, right-click the app’s bot within the Members list and kick the bot. By kicking the bot from the server, the app will be removed. 
+
+Q: Where can I use Apps?
+
+A: Apps that are added directly to a server can be used within that server if the server’s permissions are set up to allow members to use that app. Apps that are added directly to a user’s account can be used in any server that the user is in.
+
+Q: How do I install an app to my account?
+
+A: Some apps can be installed to your account directly, instead of a server. Some developers will be updating their apps to enable this functionality. If you see an app that has this feature enabled, feel free to add the app to your account! Please note that apps that are added to your account may not have all the same capabilities as apps added to a server. 
+
+Note: installing apps to your account is currently in a rollout phase. In servers with more than 200 members, only you will be able to see the app’s response to your application command.
+
+Q: My server utilizes AutoMod. Will messages from application commands be affected or flagged by AutoMod?
+
+A: AutoMod will not flag messages from apps that you’ve installed onto your server.
+
+AutoMod will only flag messages from apps that are installed directly onto a user’s account. Any actions taken by AutoMod will happen on the user who installed the application and first used it in a server. This means if an application creates a message with buttons, additional messages created from interacting with those buttons will also action against the user who used the command initially.
+
+Q: Do user installed apps have access to data about my server or DM, or the people in it?
+
+A: No, these apps installed to your account are not able to access information about your server or DMs. They also do not have permissions to take action in your server or DMs, other than responding to your interactions. Additionally,  user installed apps are not able to get information about members of your servers or DMs that have not used the app. If a user does choose to interact with the app (e.g., through buttons and select menus), then the app can access their basic user information, like their username and guild member information (if in a server). 
+
+Please refer to the app’s developer or its privacy policy to learn more about its data practices. You can also learn more about data access by apps installed in servers generally here.
