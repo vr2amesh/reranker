@@ -25,7 +25,7 @@ const pc = new Pinecone({
     apiKey: '8b411b5c-4e68-4df1-91f4-ec5d54470790'
 });
 const openai = new OpenAI({
-    apiKey: 'sk-proj-dhmaQTbdJQ3AIn2IiZfxT3BlbkFJLx7FFZKdDn2TuPijHPbF'
+    apiKey: process.env.OPENAI_API_KEY
 });
 const nlp = require('wink-nlp')(model);
 const its = nlp.its;
@@ -119,7 +119,8 @@ const generateResponse = async (topSimilarDocumentsContent: string[], summary: s
             ${summary}\n
 
             Based on this question, I have curated some documents that might be useful for you to answer this user, here are 
-            those documents in order of potential relevance to the answer. Please use this information to generate a response.\n
+            those documents in order of potential relevance to the answer. Please use this information to generate a response.
+            Do not make your response longer than 5 sentences.\n
 
             1. ${topSimilarDocumentsContent[0]}\n
 
@@ -163,11 +164,10 @@ const ChatRouteLive = Layer.effectDiscard(
                 // 2. Get dense vectors (mixedbread)
 
                 // 3. Get sparse vectors (wink)
-                bm25.learn(nlp.readDoc(await readDocument('google-support.txt')).tokens().out(its.normal));
-                const sparseQueryEmbeddings = bm25.vectorOf(nlp.readDoc(summary).tokens().out(its.normal));
+                // bm25.learn(nlp.readDoc(await readDocument('google-support.txt')).tokens().out(its.normal));
+                // const sparseQueryEmbeddings = bm25.vectorOf(nlp.readDoc(summary).tokens().out(its.normal));
 
                 const topSimilarDocuments = await getTopSimilarDocuments(messages, supportDocs, embedModelName, 4);
-                console.log(topSimilarDocuments);
 
                 const topSimilarDocumentsContent = await Promise.all(topSimilarDocuments.map(async doc => (await readDocument(doc)).join('\n\n')));
                 const response = await mxbai.reranking({
@@ -178,7 +178,6 @@ const ChatRouteLive = Layer.effectDiscard(
                     returnInput: false
                 });
                 const newDocuments = response.data.map(doc => topSimilarDocumentsContent[doc.index])
-                console.log(response.data.map(doc => topSimilarDocuments[doc.index]))
                 
                 const chatResponse = await generateResponse(newDocuments, summary as string);
                 // 4. Create index with dotproduct metric
